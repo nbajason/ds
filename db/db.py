@@ -25,7 +25,8 @@ class DB:
     def run(self, query):
         # pdb.set_trace()
         tokens = query.split(' ')
-        command, args = tokens[0].lower(), (self._parse_token_(token) for token in tokens[1:])
+        command = tokens[0].lower()
+        args = (self._parse_arg_(arg) for arg in tokens[1:])
 
         # swith - case
         if command in DB._commands_:
@@ -37,14 +38,14 @@ class DB:
         else:
             print("command of {} is invalid, please try command in {}".format(command, self._commands_.keys()))
 
-    def _parse_token_(self, token):
+    def _parse_arg_(self, arg):
         try:
-            return int(token)
+            return int(arg)
         except ValueError:
             try:
-                return float(token)
+                return float(arg)
             except ValueError:
-                return token
+                return arg
 
     def set(self, key, value):
         """
